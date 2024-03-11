@@ -47,6 +47,7 @@ enum custom_keycodes {
     EMOJI_SHOCK,
     EMOJI_SHRUG,
     EMOJI_SMILE,
+    EMOJI_SWEAT_SMILE,
     EMOJI_TADA,
     EMOJI_THINKING,
     EMOJI_THUMBS_UP,
@@ -85,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO
   ),
   [2] = LAYOUT_ergodox_pretty(
-    KC_NO,          KC_NO,          KC_NO,          EMOJI_SHRUG,    EMOJI_THINKING, KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
+    KC_NO,          KC_NO,          KC_NO,          EMOJI_SHRUG,    EMOJI_THINKING, KC_NO,          EMOJI_SWEAT_SMILE,                              KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
     KC_NO,          KC_NO,          EMOJI_HEARTS,   EMOJI_TADA,     EMOJI_WAVE,     EMOJI_COOL,     EMOJI_FINGERS_X,                                KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
     KC_NO,          KC_NO,          EMOJI_ROFL,     EMOJI_JOY,      EMOJI_LAUGH,    EMOJI_WINK,                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_EMOJI,
     KC_NO,          KC_NO,          EMOJI_SHOCK,    EMOJI_ANGRY,    EMOJI_SAD,      EMOJI_WINKTNG,  EMOJI_EYES,                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
@@ -457,6 +458,9 @@ bool process_emoji(uint16_t keycode, keyrecord_t *record) {
             case EMOJI_SMILE:
                 send_unicode_string("🙂");
                 break;
+            case EMOJI_SWEAT_SMILE:
+                send_unicode_string("😅");
+                break;
             case EMOJI_TADA:
                 send_unicode_string("🎉");
                 break;
@@ -598,6 +602,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case EMOJI_SHOCK:
         case EMOJI_SHRUG:
         case EMOJI_SMILE:
+        case EMOJI_SWEAT_SMILE:
         case EMOJI_TADA:
         case EMOJI_THINKING:
         case EMOJI_THUMBS_UP:
