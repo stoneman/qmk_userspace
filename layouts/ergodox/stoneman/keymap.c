@@ -683,7 +683,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
         break;
     default:
         if (mac_input_mode_switched) {
-            SEND_STRING(SS_LCMD(SS_LALT(SS_LCTL(SS_LSFT(SS_TAP(X_SPACE))))));
+            SEND_STRING(SS_LCMD(SS_LALT(SS_LSFT(SS_TAP(X_SPACE)))));
             mac_input_mode_switched = false;
         }
         break;
