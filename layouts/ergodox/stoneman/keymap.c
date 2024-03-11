@@ -32,6 +32,7 @@ enum custom_keycodes {
     ALT_SHIFT_TAB,
     ALT_EQL,
     ALT_SHIFT_EQL,
+    CLI_REPEAT,
     EMOJI_ANGRY,
     EMOJI_COOL,
     EMOJI_EYES,
@@ -58,7 +59,7 @@ enum custom_keycodes {
     MACRO_CHZ,
     MO_4,
     MUTE_DOTA_TOGGLE,
-    CLI_REPEAT,
+    REVIEW_PLEASE,
     VIM_QUIT,
     VIM_SAVE,
     VIM_SAVE_QUIT,
@@ -86,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO
   ),
   [2] = LAYOUT_ergodox_pretty(
-    KC_NO,          KC_NO,          KC_NO,          EMOJI_SHRUG,    EMOJI_THINKING, KC_NO,          EMOJI_SWEAT_SMILE,                              KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
+    KC_NO,          REVIEW_PLEASE,  KC_NO,          EMOJI_SHRUG,    EMOJI_THINKING, KC_NO,          EMOJI_SWEAT_SMILE,                              KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
     KC_NO,          KC_NO,          EMOJI_HEARTS,   EMOJI_TADA,     EMOJI_WAVE,     EMOJI_COOL,     EMOJI_FINGERS_X,                                KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
     KC_NO,          KC_NO,          EMOJI_ROFL,     EMOJI_JOY,      EMOJI_LAUGH,    EMOJI_WINK,                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_EMOJI,
     KC_NO,          KC_NO,          EMOJI_SHOCK,    EMOJI_ANGRY,    EMOJI_SAD,      EMOJI_WINKTNG,  EMOJI_EYES,                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
@@ -322,6 +323,14 @@ bool process_macro_vim_chz(keyrecord_t *record) {
     return true;
 }
 
+bool process_macro_review_please(keyrecord_t *record) {
+    if (record->event.pressed) {
+        SEND_STRING(SS_LSFT(SS_TAP(X_SEMICOLON)) SS_TAP(X_R) SS_TAP(X_E) SS_TAP(X_V) SS_TAP(X_I) SS_TAP(X_E) SS_TAP(X_W) SS_LSFT(SS_TAP(X_SEMICOLON)) SS_TAP(X_SPACE) SS_LSFT(SS_TAP(X_SEMICOLON)) SS_TAP(X_P) SS_TAP(X_R) SS_TAP(X_A) SS_TAP(X_Y) SS_LSFT(SS_TAP(X_SEMICOLON)));
+    }
+    return true;
+}
+
+
 bool process_layer_4(keyrecord_t *record) {
     if (record->event.pressed) {
         layer_on(4);
@@ -552,6 +561,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return process_macro_vim_sq(record);
         case MACRO_CHZ:
             return process_macro_vim_chz(record);
+        case REVIEW_PLEASE:
+            return process_macro_review_please(record);
         case LAYER_4:
             return process_layer_4(record);
         // modifiers
