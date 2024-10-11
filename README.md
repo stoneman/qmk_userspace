@@ -64,11 +64,6 @@ LEDs highlight groups of keys which perform a similar function.
 
 ![Layer 1](images/layer_1.png)
 
-- I have an [ultra-wide monitor](https://www.samsung.com/uk/monitors/curved-se790c/LS34E790CNSEN/) and normally position windows side by side on the Mac (left side is just under 2/3rd of the screen wide). I use [Slate](https://github.com/jigish/slate) to quickly position windows.
-  - `Win Layout` positions all windows in the "correct" location as specified in the slate configuration file.
-  - `Win Left` positions the active window in the "left two thirds" position.
-  - `Win Right` positions the active window in the "right one third" position.
-  - `Win Full` positions the active window in the "full screen" position.
 - `Alt+SysReq` is "Print Screen" on Windows.
 - `VPN Prod` and `VPN Dev` are Mac keyboard shortcuts bound to Automater Quick Actions which run AppleScripts for controlling Viscosity/Google Chrome to connect to the Production/Development VPNs.
 - There are macros for `Save`, `Quit` and `Save and Quit` in Vim.
@@ -91,6 +86,7 @@ LEDs highlight groups of keys which perform a similar function.
   - Code which sends my Mac `Select the next source in input menu` keyboard shortcut whenever any other layer is enabled. This switches from my last imput source (`Unicode Hex Input`) to my first input source (`British PC`).
   - Code which uses QMK's Unicode input method for Windows when Windows-style Unicode is set and which sends the relevant hex strings when Mac-style Unicode is set (I couldn't get QMK's Unicode input method for Mac to work with Unicode characters in the emoji range).
 - Nothing to do with emoji, but the following have also been added to this layer:
+  - `Review Please` - is a shortcut for the Slack emojis I add when requesting a review from my team.
   - `CLI Repeat` is for re-executing the previous command in a terminal: Up arrow, pause 50ms, Enter
   - `Start Debugging` - launches the current project with debugging in VSCode (i.e. `F5`).
   - `Step Into` - VSCode Step Into shortcut.
@@ -117,8 +113,12 @@ LEDs highlight groups of keys which perform a similar function.
 - Alt-Tab on the Mac also uses the `ALT↯EQL` and `ALT↯+EQL` keys to cycle through windows of the currently focused window.
 - Nothing to do with navigation, but the following have also been added to this layer:
   - There is a key for `Alt+Enter`. Even though the layer key is necessary to use it, this is still more comfortable than the normal `Alt` + `Enter` combination. Particularly used for newlines in slack messages.
-  - `CloseAlert` runs an Automator Quick Action to dismiss the topmost Notification Center Alert.
-  
+  - I have an [ultra-wide monitor](https://www.samsung.com/uk/monitors/curved-se790c/LS34E790CNSEN/) and normally position windows side by side on the Mac (left side is just under 2/3rd of the screen wide). I use [Hammerspoon](http://hammerspoon.org/) to quickly position windows.
+    - `Win Layout` positions all windows in the "correct" location as specified in the slate configuration file.
+    - `Win Left` positions the active window in the "left two thirds" position.
+    - `Win Right` positions the active window in the "right one third" position.
+    - `Win Full` positions the active window in the "full screen" position.
+
 ### Layer 5 - Dota
 
 This layer is just for playing [Dota](http://www.dota2.com).

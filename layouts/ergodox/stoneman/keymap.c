@@ -79,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [1] = LAYOUT_ergodox_pretty(
     QK_BOOT,        KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          LALT(KC_PRINT_SCREEN),                          KC_NO,          KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,
     KC_NO,          VIM_QUIT,       VIM_SAVE,       VIM_SAVE_QUIT,  KC_NO,          KC_NO,          KC_HYPER_F9,                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_F12,
-    KC_NO,          KC_NO,          KC_WIN_LAYOUT,  KC_WIN_LEFT,    KC_WIN_RIGHT,   KC_WIN_FULL,                                                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_TRANSPARENT,         
+    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_TRANSPARENT,         
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_HYPER_F8,                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_TRANSPARENT,         
     KC_NO,          KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_NO,          KC_NO,          KC_HYPER_F11,   KC_NO,          KC_NO,         
                                                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,         
@@ -108,9 +108,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [4] = LAYOUT_ergodox_pretty(
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
-    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_CLOSE_ALERT, KC_NO,          KC_NO,                                          KC_PGUP,        KC_NO,          LALT(KC_LEFT),  KC_UP,          LALT(KC_RIGHT), KC_NO,          KC_NO,         
-    KC_NO,          KC_NO,          KC_NO,          ALT_SHIFT_TAB,  ALT_TAB,        KC_NO,                                                                          KC_NO,          KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_NO,          KC_TRANSPARENT,         
-    LAYER_4,        MACRO_CHZ,      KC_NO,          ALT_SHIFT_EQL,  ALT_EQL,        KC_NO,          KC_NO,                                          KC_PGDN,        KC_NO,          LCTL(KC_LEFT),  KC_NO,          LCTL(KC_RIGHT), KC_NONUS_BACKSLASH,KC_TRANSPARENT,         
+    KC_NO,          KC_NO,          KC_NO,          KC_WIN_LEFT,    KC_WIN_RIGHT,   KC_NO,          KC_NO,                                          KC_PGUP,        KC_NO,          LALT(KC_LEFT),  KC_UP,          LALT(KC_RIGHT), KC_NO,          KC_NO,         
+    KC_NO,          KC_NO,          KC_WIN_FULL,    ALT_SHIFT_TAB,  ALT_TAB,        KC_NO,                                                                          KC_NO,          KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_NO,          KC_TRANSPARENT,         
+    LAYER_4,        MACRO_CHZ,      KC_WIN_LAYOUT,  ALT_SHIFT_EQL,  ALT_EQL,        KC_NO,          KC_NO,                                          KC_PGDN,        KC_NO,          LCTL(KC_LEFT),  KC_NO,          LCTL(KC_RIGHT), KC_NONUS_BACKSLASH,KC_TRANSPARENT,         
     KC_NO,          KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_NO,          KC_NO,          KC_HYPER_F14,   KC_NO,          KC_NO,         
                                                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,         
                                                                                                                     KC_NO,          KC_HOME,
@@ -325,7 +325,7 @@ bool process_macro_vim_chz(keyrecord_t *record) {
 
 bool process_macro_review_please(keyrecord_t *record) {
     if (record->event.pressed) {
-        SEND_STRING(SS_LSFT(SS_TAP(X_SEMICOLON)) SS_TAP(X_R) SS_TAP(X_E) SS_TAP(X_V) SS_TAP(X_I) SS_TAP(X_E) SS_TAP(X_W) SS_LSFT(SS_TAP(X_SEMICOLON)) SS_TAP(X_SPACE) SS_LSFT(SS_TAP(X_SEMICOLON)) SS_TAP(X_P) SS_TAP(X_R) SS_TAP(X_A) SS_TAP(X_Y) SS_LSFT(SS_TAP(X_SEMICOLON)));
+        SEND_STRING(SS_LSFT(SS_TAP(X_SEMICOLON)) SS_TAP(X_R) SS_TAP(X_E) SS_TAP(X_V) SS_TAP(X_I) SS_TAP(X_E) SS_TAP(X_W) SS_LSFT(SS_TAP(X_SEMICOLON)) SS_TAP(X_SPACE) SS_LSFT(SS_TAP(X_SEMICOLON)) SS_TAP(X_P) SS_TAP(X_R) SS_TAP(X_A) SS_TAP(X_Y) SS_LSFT(SS_TAP(X_SEMICOLON)) SS_TAP(X_SPACE));
     }
     return true;
 }
