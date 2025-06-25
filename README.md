@@ -82,8 +82,8 @@ LEDs highlight groups of keys which perform a similar function.
   - The `Unicode Hex Input` keyboard layout enabled on the Mac.
   - Code which sets the Unicode format to Windows-style when the keyboard boots/resumes from sleep.
   - Code which sets the Unicode format to Mac-style whenever a Raw HID command is received.
-  - Code which sends my Mac `Select the previous input source` keyboard shortcut whenever the Emoji layer is enabled. This switches from my first imput source (`British PC`) to my last input source (`Unicode Hex Input`).
-  - Code which sends my Mac `Select the next source in input menu` keyboard shortcut whenever any other layer is enabled. This switches from my last imput source (`Unicode Hex Input`) to my first input source (`British PC`).
+  - Code which triggers [Kawa](https://github.com/hatashiro/kawa) on my Mac to switch to `Unicode Hex Input` input mode whenever the Emoji layer is enabled.
+  - Code which triggers [Kawa](https://github.com/hatashiro/kawa) on my Mac to switch to `British PC` input mode whenever any other layer is enabled.
   - Code which uses QMK's Unicode input method for Windows when Windows-style Unicode is set and which sends the relevant hex strings when Mac-style Unicode is set (I couldn't get QMK's Unicode input method for Mac to work with Unicode characters in the emoji range).
 - Nothing to do with emoji, but the following have also been added to this layer:
   - `Review Please` - is a shortcut for the Slack emojis I add when requesting a review from my team.

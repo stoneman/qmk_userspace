@@ -48,6 +48,7 @@ enum custom_keycodes {
     EMOJI_SHOCK,
     EMOJI_SHRUG,
     EMOJI_SMILE,
+    EMOJI_SLIGHT_SMILE,
     EMOJI_SWEAT_SMILE,
     EMOJI_TADA,
     EMOJI_THINKING,
@@ -87,14 +88,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO
   ),
   [2] = LAYOUT_ergodox_pretty(
-    KC_NO,          REVIEW_PLEASE,  KC_NO,          EMOJI_SHRUG,    EMOJI_THINKING, KC_NO,          EMOJI_SWEAT_SMILE,                              KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
+    KC_NO,          REVIEW_PLEASE,  KC_NO,          EMOJI_SHRUG,    EMOJI_THINKING, EMOJI_SMILE,    EMOJI_SWEAT_SMILE,                              KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
     KC_NO,          KC_NO,          EMOJI_HEARTS,   EMOJI_TADA,     EMOJI_WAVE,     EMOJI_COOL,     EMOJI_FINGERS_X,                                KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
     KC_NO,          KC_NO,          EMOJI_ROFL,     EMOJI_JOY,      EMOJI_LAUGH,    EMOJI_WINK,                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_EMOJI,
     KC_NO,          KC_NO,          EMOJI_SHOCK,    EMOJI_ANGRY,    EMOJI_SAD,      EMOJI_WINKTNG,  EMOJI_EYES,                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
     KC_NO,          KC_NO,          KC_NO,          EMOJI_MINDBLO,  EMOJI_SEENOEVIL,                                                                                                KC_NO,          KC_NO,          KC_HYPER_F12,   KC_NO,          KC_NO,         
                                                                                                     KC_NO,          KC_NO,          LSFT(KC_F11),   KC_F11,
                                                                                                                     KC_NO,          KC_F10,
-                                                                                    EMOJI_THUMBS_UP,EMOJI_SMILE,    EMOJI_GRIN,     KC_F5,         CLI_REPEAT,     KC_NO
+                                                                                    EMOJI_THUMBS_UP,EMOJI_SLIGHT_SMILE,EMOJI_GRIN,  KC_F5,         CLI_REPEAT,     KC_NO
   ),
   [3] = LAYOUT_ergodox_pretty(
     KC_NO,          KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_AUDIO_MUTE,                                  KC_NO,          KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_NO,         
@@ -107,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO
   ),
   [4] = LAYOUT_ergodox_pretty(
-    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
+    KC_NO,          KC_NO,          KC_NO,          LCTL(KC_F20),   LCMD(KC_F20),   KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
     KC_NO,          KC_NO,          KC_NO,          KC_WIN_LEFT,    KC_WIN_RIGHT,   KC_NO,          KC_NO,                                          KC_PGUP,        KC_NO,          LALT(KC_LEFT),  KC_UP,          LALT(KC_RIGHT), KC_NO,          KC_NO,         
     KC_NO,          KC_NO,          KC_WIN_FULL,    ALT_SHIFT_TAB,  ALT_TAB,        KC_NO,                                                                          KC_NO,          KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_NO,          KC_TRANSPARENT,         
     LAYER_4,        MACRO_CHZ,      KC_WIN_LAYOUT,  ALT_SHIFT_EQL,  ALT_EQL,        KC_NO,          KC_NO,                                          KC_PGDN,        KC_NO,          LCTL(KC_LEFT),  KC_NO,          LCTL(KC_RIGHT), KC_NONUS_BACKSLASH,KC_TRANSPARENT,         
@@ -464,8 +465,11 @@ bool process_emoji(uint16_t keycode, keyrecord_t *record) {
             case EMOJI_SHRUG:
                 send_unicode_string("🤷");
                 break;
-            case EMOJI_SMILE:
+            case EMOJI_SLIGHT_SMILE:
                 send_unicode_string("🙂");
+                break;
+            case EMOJI_SMILE:
+                send_unicode_string("😄");
                 break;
             case EMOJI_SWEAT_SMILE:
                 send_unicode_string("😅");
@@ -612,6 +616,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case EMOJI_SEENOEVIL:
         case EMOJI_SHOCK:
         case EMOJI_SHRUG:
+        case EMOJI_SLIGHT_SMILE:
         case EMOJI_SMILE:
         case EMOJI_SWEAT_SMILE:
         case EMOJI_TADA:
@@ -693,13 +698,13 @@ layer_state_t layer_state_set_user(layer_state_t state) {
     switch (layer) {
     case 2:
         if (is_mac) {
-            SEND_STRING(SS_LCMD(SS_LALT(SS_LCTL(SS_TAP(X_SPACE)))));
+            SEND_STRING(SS_LCMD(SS_LALT(SS_TAP(X_F11))));
             mac_input_mode_switched = true;
         }
         break;
     default:
         if (mac_input_mode_switched) {
-            SEND_STRING(SS_LCMD(SS_LALT(SS_LSFT(SS_TAP(X_SPACE)))));
+            SEND_STRING(SS_LCTL(SS_LALT(SS_TAP(X_F11))));
             mac_input_mode_switched = false;
         }
         break;
