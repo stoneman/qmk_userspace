@@ -80,40 +80,40 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [1] = LAYOUT_ergodox_pretty(
     QK_BOOT,        KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          LALT(KC_PRINT_SCREEN),                          KC_NO,          KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,
     KC_NO,          VIM_QUIT,       VIM_SAVE,       VIM_SAVE_QUIT,  KC_NO,          KC_NO,          KC_HYPER_F9,                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_F12,
-    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_TRANSPARENT,         
-    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_HYPER_F8,                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_TRANSPARENT,         
-    KC_NO,          KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_NO,          KC_NO,          KC_HYPER_F11,   KC_NO,          KC_NO,         
-                                                                                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,         
-                                                                                                                    KC_NO,          KC_NO,         
+    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_TRANSPARENT,
+    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_HYPER_F8,                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_TRANSPARENT,
+    KC_NO,          KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_NO,          KC_NO,          KC_HYPER_F11,   KC_NO,          KC_NO,
+                                                                                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,
+                                                                                                                    KC_NO,          KC_NO,
                                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO
   ),
   [2] = LAYOUT_ergodox_pretty(
-    KC_NO,          REVIEW_PLEASE,  KC_NO,          EMOJI_SHRUG,    EMOJI_THINKING, EMOJI_SMILE,    EMOJI_SWEAT_SMILE,                              KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
-    KC_NO,          KC_NO,          EMOJI_HEARTS,   EMOJI_TADA,     EMOJI_WAVE,     EMOJI_COOL,     EMOJI_FINGERS_X,                                KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
+    KC_NO,          REVIEW_PLEASE,  KC_NO,          EMOJI_SHRUG,    EMOJI_THINKING, EMOJI_SMILE,    EMOJI_SWEAT_SMILE,                              KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+    KC_NO,          KC_NO,          EMOJI_HEARTS,   EMOJI_TADA,     EMOJI_WAVE,     EMOJI_COOL,     EMOJI_FINGERS_X,                                KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
     KC_NO,          KC_NO,          EMOJI_ROFL,     EMOJI_JOY,      EMOJI_LAUGH,    EMOJI_WINK,                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_EMOJI,
-    KC_NO,          KC_NO,          EMOJI_SHOCK,    EMOJI_ANGRY,    EMOJI_SAD,      EMOJI_WINKTNG,  EMOJI_EYES,                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
-    KC_NO,          KC_NO,          KC_NO,          EMOJI_MINDBLO,  EMOJI_SEENOEVIL,                                                                                                KC_NO,          KC_NO,          KC_HYPER_F12,   KC_NO,          KC_NO,         
+    KC_NO,          KC_NO,          EMOJI_SHOCK,    EMOJI_ANGRY,    EMOJI_SAD,      EMOJI_WINKTNG,  EMOJI_EYES,                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+    KC_NO,          KC_NO,          KC_NO,          EMOJI_MINDBLO,  EMOJI_SEENOEVIL,                                                                                                KC_NO,          KC_NO,          KC_HYPER_F12,   KC_NO,          KC_NO,
                                                                                                     KC_NO,          KC_NO,          LSFT(KC_F11),   KC_F11,
                                                                                                                     KC_NO,          KC_F10,
                                                                                     EMOJI_THUMBS_UP,EMOJI_SLIGHT_SMILE,EMOJI_GRIN,  KC_F5,         CLI_REPEAT,     KC_NO
   ),
   [3] = LAYOUT_ergodox_pretty(
-    KC_NO,          KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_AUDIO_MUTE,                                  KC_NO,          KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_NO,         
-    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_AUDIO_VOL_UP,                                KC_NO,          KC_NO,          KC_4,           KC_5,           KC_6,           KC_PLUS,        KC_NO,         
-    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                                                          KC_NO,          KC_1,           KC_2,           KC_3,           KC_ASTR,        KC_TRANSPARENT,         
-    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_AUDIO_VOL_DOWN,                              KC_TRANSPARENT, KC_NO,          KC_0,           KC_NO,          KC_DOT,         KC_SLASH,       KC_TRANSPARENT,         
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_NO,          KC_TRANSPARENT, KC_HYPER_F13,   LSFT(KC_8),     KC_TRANSPARENT,         
-                                                                                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,         
-                                                                                                                    KC_NO,          KC_NO,         
+    KC_NO,          KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_AUDIO_MUTE,                                  KC_NO,          KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_NO,
+    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_AUDIO_VOL_UP,                                KC_NO,          KC_NO,          KC_4,           KC_5,           KC_6,           KC_PLUS,        KC_NO,
+    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                                                          KC_NO,          KC_1,           KC_2,           KC_3,           KC_ASTR,        KC_TRANSPARENT,
+    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_AUDIO_VOL_DOWN,                              KC_TRANSPARENT, KC_NO,          KC_0,           KC_NO,          KC_DOT,         KC_SLASH,       KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_NO,          KC_TRANSPARENT, KC_HYPER_F13,   LSFT(KC_8),     KC_TRANSPARENT,
+                                                                                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,
+                                                                                                                    KC_NO,          KC_NO,
                                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO
   ),
   [4] = LAYOUT_ergodox_pretty(
-    KC_NO,          KC_NO,          KC_NO,          LCTL(KC_F20),   LCMD(KC_F20),   KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,         
-    KC_NO,          KC_NO,          KC_NO,          KC_WIN_LEFT,    KC_WIN_RIGHT,   KC_NO,          KC_NO,                                          KC_PGUP,        KC_NO,          LALT(KC_LEFT),  KC_UP,          LALT(KC_RIGHT), KC_NO,          KC_NO,         
-    KC_NO,          KC_NO,          KC_WIN_FULL,    ALT_SHIFT_TAB,  ALT_TAB,        KC_NO,                                                                          KC_NO,          KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_NO,          KC_TRANSPARENT,         
-    LAYER_4,        MACRO_CHZ,      KC_WIN_LAYOUT,  ALT_SHIFT_EQL,  ALT_EQL,        KC_NO,          KC_NO,                                          KC_PGDN,        KC_NO,          LCTL(KC_LEFT),  KC_NO,          LCTL(KC_RIGHT), KC_NONUS_BACKSLASH,KC_TRANSPARENT,         
-    KC_NO,          KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_NO,          KC_NO,          KC_HYPER_F14,   KC_NO,          KC_NO,         
-                                                                                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,         
+    KC_NO,          KC_NO,          KC_NO,          LCTL(KC_F20),   LCMD(KC_F20),   KC_NO,          KC_NO,                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,
+    KC_NO,          KC_NO,          KC_NO,          KC_WIN_LEFT,    KC_WIN_RIGHT,   KC_NO,          KC_NO,                                          KC_PGUP,        KC_NO,          LALT(KC_LEFT),  KC_UP,          LALT(KC_RIGHT), KC_NO,          KC_NO,
+    KC_NO,          KC_NO,          KC_WIN_FULL,    ALT_SHIFT_TAB,  ALT_TAB,        KC_NO,                                                                          KC_NO,          KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_NO,          KC_TRANSPARENT,
+    LAYER_4,        MACRO_CHZ,      KC_WIN_LAYOUT,  ALT_SHIFT_EQL,  ALT_EQL,        KC_NO,          KC_NO,                                          KC_PGDN,        KC_NO,          LCTL(KC_LEFT),  KC_NO,          LCTL(KC_RIGHT), KC_NONUS_BACKSLASH,KC_TRANSPARENT,
+    KC_NO,          KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_NO,          KC_NO,          KC_HYPER_F14,   KC_NO,          KC_NO,
+                                                                                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,
                                                                                                                     KC_NO,          KC_HOME,
                                                                                     KC_NO,          KC_NO,          KC_NO,          KC_END,         LALT(KC_ENTER), KC_NO
   ),
@@ -514,14 +514,12 @@ bool is_dota_toggle = false;
 
 bool process_mute_dota_toggle(keyrecord_t *record) {
     if (record->event.pressed) {
-        if (alt_pressed) {
+        if (layer_state_is(5)) {
+            layer_off(5);
+        } else if (shift_pressed) {
             is_dota_toggle = true;
-            if (layer_state_is(5)) {
-                layer_off(5);
-            } else {
-                layer_on(5);
-            }
-        } else {
+            layer_on(5);
+        } else if (alt_pressed) {
             register_code(KC_LALT);
             register_code(KC_F6);
         }

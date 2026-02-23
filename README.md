@@ -11,8 +11,8 @@ The source for my layout can be found within: [layouts/ergodox/stoneman/](layout
 - Check out this repo in [qmk_firmware](https://github.com/qmk/qmk_firmware).
 - In your clone of this repo, update `QMK_USERSPACE` and `QMK_FIRMWARE` in `./flash_stoneman.sh`.
 - Perform the steps described in sections `2. Prepare Your Build Environment` and `3. Run QMK Setup` of <https://docs.qmk.fm/#/newbs_getting_started>.
-- Install Wally: https://formulae.brew.sh/cask/zsa-wally
-- Install `wally-cli`: https://github.com/zsa/wally-cli
+- Install Wally: <https://formulae.brew.sh/cask/zsa-wally>
+- Install `wally-cli`: <https://github.com/zsa/wally-cli>
 - Execute `./flash_stoneman.sh` - once built it will prompt for you to flash your keyboard but this can be cancelled.
 
 ## About the layout
@@ -45,7 +45,7 @@ Key LED colours depends on whether the keyboard is connected to my PC or my Mac.
 
 ![Layer 0](images/layer_0.png)
 
-- `Alt+F6` is `Mute Mic` for Zoom on the Mac and [Discord](https://discordapp.com/) on the PC.
+- `Alt+F6` is `Mute Mic` for Zoom on the Mac and [Discord](https://discordapp.com/) on the PC. Only gets sent when `; / Left Alt` is held to avoid accidentally (un)muting myself.
 - When holding `; / Left Alt`, `Alt+F6` becomes the `Layer 5` key.
 - The top row numbers are "shifted" by default, except for the keys in position `9` and `0` which are `[` and `]`. When `Shift` is held, the top row numbers revert to their digit values.
 - The `Caps Lock` key delays it's release by 200ms. This is because MacOS assumes you were only joking if you tap it too quickly (seriously 🤦‍)
