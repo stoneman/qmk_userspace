@@ -376,18 +376,18 @@ bool process_alt_tab(keyrecord_t *record, bool reverse) {
     if (record->event.pressed) {
         if (!is_alt_tab_active) {
             is_alt_tab_active = true;
-        }
-        if (reverse) {
-            register_code(KC_LEFT);
-        } else {
             register_code(KC_LALT);
-            register_code(KC_TAB);
+            // This is released in process_layer_4
         }
-    } else {
+
         if (reverse) {
-            unregister_code(KC_LEFT);
-        } else {
-            unregister_code(KC_TAB);
+            register_code(KC_LSFT);
+        }
+        register_code(KC_TAB);
+    } else {
+        unregister_code(KC_TAB);
+        if (reverse) {
+            unregister_code(KC_LSFT);
         }
     }
     return true;
@@ -400,18 +400,16 @@ bool process_alt_eql(keyrecord_t *record, bool reverse) {
     if (record->event.pressed) {
         if (!is_alt_eql_active) {
             is_alt_eql_active = true;
-        }
-        if (reverse) {
-            register_code(KC_LEFT);
-        } else {
             register_code(KC_LALT);
-            register_code(KC_EQUAL);
         }
-    } else {
         if (reverse) {
-            unregister_code(KC_LEFT);
-        } else {
-            unregister_code(KC_EQUAL);
+            register_code(KC_LSFT);
+        }
+        register_code(KC_EQUAL);
+    } else {
+        unregister_code(KC_EQUAL);
+        if (reverse) {
+            unregister_code(KC_LSFT);
         }
     }
     return true;
