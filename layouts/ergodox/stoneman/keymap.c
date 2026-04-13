@@ -404,12 +404,16 @@ bool process_alt_eql(keyrecord_t *record, bool reverse) {
         }
         if (reverse) {
             register_code(KC_LSFT);
+            register_code(KC_TAB);
+        } else {
+            register_code(KC_EQUAL);
         }
-        register_code(KC_EQUAL);
     } else {
-        unregister_code(KC_EQUAL);
         if (reverse) {
             unregister_code(KC_LSFT);
+            unregister_code(KC_TAB);
+        } else {
+            unregister_code(KC_EQUAL);
         }
     }
     return true;
