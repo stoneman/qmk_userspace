@@ -190,6 +190,8 @@ const uint8_t RBRACKET_NINE_SHIFT_COMBO[] = { KC_RBRC, KC_NO, KC_0, KC_NO };
 bool is_alt_tab_active = false;
 bool is_alt_eql_active = false;
 bool is_easy_win_shift_active = false;
+// Modifier currently held by process_alt_tab (KC_LALT on Win, KC_LCTL on Mac).
+uint8_t alt_tab_mod = KC_LALT;
 
 void key_press(keyrecord_t *record, uint8_t keycode, uint8_t mod) {
     if (record->event.pressed) {
@@ -336,9 +338,13 @@ bool process_layer_4(keyrecord_t *record) {
     if (record->event.pressed) {
         layer_on(4);
     } else {
-        if (is_alt_tab_active || is_alt_eql_active) {
-            unregister_code(KC_LALT);
+        if (is_alt_tab_active) {
+            unregister_code(alt_tab_mod);
+            alt_tab_mod = KC_LALT;
             is_alt_tab_active = false;
+        }
+        if (is_alt_eql_active) {
+            unregister_code(KC_LALT);
             is_alt_eql_active = false;
         }
         layer_off(4);
@@ -376,7 +382,12 @@ bool process_alt_tab(keyrecord_t *record, bool reverse) {
     if (record->event.pressed) {
         if (!is_alt_tab_active) {
             is_alt_tab_active = true;
-            register_code(KC_LALT); // This is released in process_layer_4
+            // On Mac, use Ctrl+Tab instead of Alt+Tab.. The mod is released in
+            // process_layer_4.
+            alt_tab_mod = (get_unicode_input_mode() == UNICODE_MODE_MACOS)
+                              ? KC_LCTL
+                              : KC_LALT;
+            register_code(alt_tab_mod);
 
             register_code(KC_TAB);
         } else {
