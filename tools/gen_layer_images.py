@@ -7,14 +7,17 @@ Pipeline:
     -> keymap parse                    (keymap-drawer)
     -> inject combos parsed from keymap.c
     -> keymap draw -s LN               (one SVG per layer)
+    -> svg2png.swift                   (rasterise via WebKit; macOS only)
 
 Usage:
-  tools/gen_layer_images.py            # regenerate images/layer_*.svg
+  tools/gen_layer_images.py            # regenerate images/layer_*.{svg,png}
   tools/gen_layer_images.py --check    # exit 1 if outputs would differ
 
 Required tools (install via: pipx install keymap-drawer):
   - qmk        (must be runnable from a qmk_firmware checkout)
   - keymap     (keymap-drawer)
+  - swift      (macOS only; for the SVG->PNG step. PNGs are skipped
+               on non-macOS hosts.)
 """
 from __future__ import annotations
 
@@ -32,6 +35,14 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 KEYMAP_C = REPO_ROOT / "layouts/ergodox/stoneman/keymap.c"
 CONFIG_YAML = REPO_ROOT / "tools/keymap_drawer_config.yaml"
 IMAGES_DIR = REPO_ROOT / "images"
+SVG2PNG = REPO_ROOT / "tools/svg2png.swift"
+
+# Logical (CSS px) size of the rendered SVG. Matches the keymap layout the
+# drawer emits for ergodox_ez/glow with our config; see
+# `<svg width=... height=...>` in any images/layer_*.svg. PNGs are rendered
+# at 2x this size for crisp display on retina screens.
+PNG_SIZE = (1012, 560)
+PNG_SCALE = 2
 
 KEYBOARD = "ergodox_ez/glow"
 KEYMAP_NAME = "stoneman"
@@ -314,6 +325,36 @@ def generate(out_dir: Path) -> None:
                 ]
             )
 
+        # 5. Rasterise each SVG to PNG via WebKit (colour-emoji capable).
+        rasterize_to_png(out_dir)
+
+
+def rasterize_to_png(out_dir: Path) -> None:
+    """Render layer_*.svg in out_dir to layer_*.png using svg2png.swift.
+
+    We use WebKit (via a small Swift shim) because it's the only SVG
+    renderer readily available on macOS that draws Apple Color Emoji in
+    colour. rsvg-convert and CoreSVG fall back to monochrome glyphs.
+
+    On non-macOS hosts this step is skipped; SVGs are still emitted.
+    """
+    if sys.platform != "darwin":
+        print("note: skipping PNG rasterisation (not macOS)", file=sys.stderr)
+        return
+    if not shutil.which("swift"):
+        die("swift not on PATH; install Xcode command-line tools")
+    width, height = PNG_SIZE
+    for i in range(len(LAYER_NAMES)):
+        svg = out_dir / f"layer_{i}.svg"
+        png = out_dir / f"layer_{i}.png"
+        run(
+            [
+                "swift", str(SVG2PNG),
+                str(svg), str(png),
+                str(width), str(height), str(PNG_SCALE),
+            ]
+        )
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Entry point
@@ -329,6 +370,9 @@ def cmd_check() -> int:
         tmp = Path(tmp_s)
         generate(tmp)
         diffs: list[str] = []
+        # PNGs are non-deterministic across machines (font rasterisation,
+        # antialiasing) so only the SVG sources are part of the freshness
+        # check. Regenerate PNGs locally with `make images`.
         for i in range(len(LAYER_NAMES)):
             rel = f"layer_{i}.svg"
             fresh = tmp / rel

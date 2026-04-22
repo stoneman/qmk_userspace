@@ -6,7 +6,7 @@ applyTo: "tools/**,images/**,Makefile,.github/workflows/check-images.yml,.githoo
 # Layer-image generation pipeline
 
 The pipeline turns [layouts/ergodox/stoneman/keymap.c](../../layouts/ergodox/stoneman/keymap.c)
-into one SVG per layer in [images/](../../images/). Driven by
+into one SVG **and** one PNG per layer in [images/](../../images/). Driven by
 [tools/gen_layer_images.py](../../tools/gen_layer_images.py) and configured by
 [tools/keymap_drawer_config.yaml](../../tools/keymap_drawer_config.yaml).
 
@@ -18,9 +18,13 @@ into one SVG per layer in [images/](../../images/). Driven by
 - **`keymap-drawer`** ≥ 0.23.0, installed via `pipx install keymap-drawer`
   (the `keymap` CLI on `$PATH`). The script borrows PyYAML from this venv
   via `ensure_yaml()` — system `python3` does not need PyYAML installed.
-- **No `librsvg`/`rsvg-convert`** — PNG output was intentionally removed.
-  Only install it locally if you want ad-hoc previews
-  (`rsvg-convert images/layer_3.svg -o /tmp/x.png`).
+- **`swift`** (Xcode command-line tools) for the SVG→PNG step. macOS only;
+  on other platforms PNG generation is silently skipped.
+- **No `librsvg`/`rsvg-convert`** — we don't use it. PNG rasterisation goes
+  through WebKit via [tools/svg2png.swift](../../tools/svg2png.swift)
+  because it's the only readily-available macOS SVG renderer that draws
+  Apple Color Emoji in colour. `rsvg-convert` and CoreSVG both fall back
+  to monochrome outlines.
 
 ## Pipeline stages (in `gen_layer_images.py`)
 
@@ -33,9 +37,14 @@ into one SVG per layer in [images/](../../images/). Driven by
    `type: trans` so CSS can fade them. Without this, transparents render as
    bare triangles and you can't tell what falls through.
 5. `keymap draw -s <layer name>` → one SVG per layer.
+6. **`rasterize_to_png()`** — runs `swift tools/svg2png.swift` on each SVG
+   to produce a 2× retina PNG (consumed by the doxaid macOS app, which
+   uses `NSImageView` and an asset catalog). Skipped on non-macOS.
 
-`--check` re-runs the whole pipeline into a tempdir and diffs against
-[images/](../../images/).
+`--check` re-runs stages 1–5 into a tempdir and diffs the SVGs against
+[images/](../../images/). PNGs are *not* diffed — font rasterisation is
+not byte-stable across machines / OS versions, and CI runs on Linux where
+the Swift step is skipped.
 
 ## Gotchas (we hit all of these)
 
@@ -51,9 +60,11 @@ into one SVG per layer in [images/](../../images/). Driven by
 - **Transparent-key resolution is an approximation.** It assumes layer 0 is
   always active underneath. True for this keymap. If layering ever changes
   (e.g. base-layer toggle), revisit `resolve_transparent_keys()`.
-- **Emoji glyphs render as monochrome outlines** in `librsvg`. That's a
-  rasteriser limitation, not the pipeline's. Browsers display them in
-  colour. Don't try to "fix" by re-introducing PNGs.
+- **Emoji glyphs render as monochrome outlines** in `librsvg` and Apple's
+  CoreSVG. That's why we shell out to WebKit (`tools/svg2png.swift`) for
+  the PNG step — it's the only macOS-native renderer that does colour
+  emoji. Browsers also render the SVGs in colour. Don't switch the PNG
+  step to `rsvg-convert` or NSImage's CoreSVG path.
 - **`KC_TRANSPARENT` ≠ `KC_NO`.** `KC_NO` keys legitimately have no label
   and no inheritance — they appear dark and empty. That is correct.
 - **GUI git clients (Fork, GitHub Desktop, …) run hooks with a sanitised
@@ -75,8 +86,8 @@ The CI workflow installs `qmk` + `keymap-drawer` only — keep it that way.
 
 ## Don't
 
-- Reintroduce PNG generation. doxaid migration to SVG is documented in
-  [doxaid.md](../../doxaid.md); the eventual fix is on the doxaid side.
+- Switch the PNG step to `rsvg-convert` / CoreSVG — colour emoji will
+  break (see Gotchas).
 - Hand-edit files in [images/](../../images/) — `make check-images` will
   fail on push.
 - Add `librsvg` to CI.

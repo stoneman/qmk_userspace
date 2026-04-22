@@ -12,8 +12,8 @@ keymap `stoneman`).
 - [tools/](tools/) — diagram generation pipeline. See
   [.github/instructions/image-pipeline.instructions.md](.github/instructions/image-pipeline.instructions.md)
   before touching anything in here.
-- [images/](images/) — generated `layer_*.svg` (do not edit by hand) plus a
-  couple of pre-existing static PNGs.
+- [images/](images/) — generated `layer_*.svg` and `layer_*.png` (do not
+  edit by hand) plus a couple of pre-existing static PNGs.
 - [flash_stoneman.sh](flash_stoneman.sh) — flashes the firmware.
 
 ## Building / flashing
