@@ -2,8 +2,19 @@
 
 set -ex
 
-QMK_USERSPACE="/Users/jonathan/git/stoneman/qmk_userspace"
-QMK_FIRMWARE="/Users/jonathan/git/qmk/qmk_firmware"
+QMK_USERSPACE="$(cd "$(dirname "$0")" && pwd)"
+
+# Resolve qmk_firmware location: $QMK_HOME (the var the qmk CLI itself
+# honours) or `qmk config user.qmk_home`.
+QMK_FIRMWARE="${QMK_HOME:-}"
+if [ -z "${QMK_FIRMWARE}" ]; then
+    QMK_FIRMWARE="$(qmk config -ro user.qmk_home 2>/dev/null | sed 's/^user\.qmk_home=//')"
+fi
+if [ -z "${QMK_FIRMWARE}" ] || [ "${QMK_FIRMWARE}" = "None" ] || [ ! -d "${QMK_FIRMWARE}/lib/python/qmk" ]; then
+    echo "error: cannot find qmk_firmware. Set QMK_HOME env var or run" >&2
+    echo "       \`qmk config user.qmk_home=/path/to/qmk_firmware\`." >&2
+    exit 1
+fi
 
 qmk config user.overlay_dir="${QMK_USERSPACE}"
 

@@ -1,0 +1,39 @@
+name: check-images
+
+# Advisory check: flags when images/layer_*.{svg,png} are out of sync with
+# keymap.c. Does NOT block merges or pushes (the pre-push hook does that).
+# A red ❌ here on a commit means someone bypassed the local hook.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+
+      # qmk_firmware is needed for `qmk c2json`. Shallow clone keeps it fast.
+      - name: Clone qmk_firmware
+        run: git clone --depth=1 https://github.com/qmk/qmk_firmware.git
+          $RUNNER_TEMP/qmk_firmware
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install qmk + keymap-drawer
+        run: pip install qmk keymap-drawer
+
+      - name: Check layer images are up to date
+        env:
+          QMK_HOME: ${{ runner.temp }}/qmk_firmware
+        run: python3 tools/gen_layer_images.py --check

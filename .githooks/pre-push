@@ -1,0 +1,27 @@
+#!/bin/sh
+# pre-push hook: ensure committed layer images match keymap.c.
+#
+# Bypass with `git push --no-verify` when intentional (e.g. you've changed
+# the keymap and want to push first, then regenerate images in a follow-up
+# commit). The check-images CI workflow will still flag the mismatch.
+#
+# Activate this hook with: make install-hooks
+
+set -e
+
+# GUI git clients (Fork, GitHub Desktop, …) launch hooks with a sanitised
+# PATH that doesn't include pipx (~/.local/bin) or Homebrew, so `qmk` and
+# `keymap` aren't found. Prepend the usual install locations.
+PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+export PATH
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root"
+
+if ! make check-images; then
+    echo
+    echo "❌ Layer images are out of date." >&2
+    echo "   Run \`make images\` and commit the result," >&2
+    echo "   or push with \`git push --no-verify\` to skip this check." >&2
+    exit 1
+fi

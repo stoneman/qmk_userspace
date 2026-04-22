@@ -9,11 +9,40 @@ The source for my layout can be found within: [layouts/ergodox/stoneman/](layout
 ## Building from source
 
 - Check out this repo in [qmk_firmware](https://github.com/qmk/qmk_firmware).
-- In your clone of this repo, update `QMK_USERSPACE` and `QMK_FIRMWARE` in `./flash_stoneman.sh`.
+- Tell QMK where the firmware checkout lives, once per machine:
+  `qmk config user.qmk_home=/path/to/qmk_firmware`
+  (alternatively, export `QMK_HOME` in your shell).
 - Perform the steps described in sections `2. Prepare Your Build Environment` and `3. Run QMK Setup` of <https://docs.qmk.fm/#/newbs_getting_started>.
 - Install Wally: <https://formulae.brew.sh/cask/zsa-wally>
 - Install `wally-cli`: <https://github.com/zsa/wally-cli>
 - Execute `./flash_stoneman.sh` - once built it will prompt for you to flash your keyboard but this can be cancelled.
+
+## Layer images
+
+The diagrams under [images/](images/) are auto-generated from
+[`keymap.c`](layouts/ergodox/stoneman/keymap.c) using
+[keymap-drawer](https://github.com/caksoylar/keymap-drawer). Custom keycode
+labels live in [tools/keymap_drawer_config.yaml](tools/keymap_drawer_config.yaml).
+
+Setup (one-time):
+
+```sh
+brew install pipx
+pipx install keymap-drawer
+make install-hooks                 # enables the pre-push freshness check
+```
+
+Workflow:
+
+```sh
+make images          # regenerate images/layer_*.svg
+make check-images    # exit non-zero if regeneration would change anything
+```
+
+A `pre-push` hook runs `make check-images` automatically. If you want to push
+before regenerating (e.g. work-in-progress), bypass it with
+`git push --no-verify`; the [check-images](.github/workflows/check-images.yml)
+workflow will flag the mismatch on GitHub so you don't forget.
 
 ## About the layout
 
@@ -43,7 +72,7 @@ Key LED colours depends on whether the keyboard is connected to my PC or my Mac.
 - Windows: LEDs are a bright yellow in the center of the key pads fading out to a bright red at the edges. 🔥🔥🔥
 - Mac: LEDs are a light purple in the center of the key pads fading out to a cool blue at the edges 💎
 
-![Layer 0](images/layer_0.png)
+![Layer 0](images/layer_0.svg)
 
 - `Alt+F6` is `Mute Mic` for Zoom on the Mac and [Discord](https://discordapp.com/) on the PC. Only gets sent when `; / Left Alt` is held to avoid accidentally (un)muting myself.
 - When holding `; / Left Alt`, `Alt+F6` becomes the `Layer 5` key.
@@ -62,7 +91,7 @@ Function keys and others that I occasionally want when Layer 0 is active.
 
 LEDs highlight groups of keys which perform a similar function.
 
-![Layer 1](images/layer_1.png)
+![Layer 1](images/layer_1.svg)
 
 - `Alt+SysReq` is "Print Screen" on Windows.
 - `VPN Prod` and `VPN Dev` are Mac keyboard shortcuts bound to Automater Quick Actions which run AppleScripts for controlling Viscosity/Google Chrome to connect to the Production/Development VPNs.
@@ -74,7 +103,7 @@ Emoji and more keys that I occasionally want when Layer 0 is active.
 
 LEDs highlight groups of keys which perform a similar function.
 
-![Layer 2](images/layer_2.png)🙈
+![Layer 2](images/layer_2.svg)
 
 - `Ctrl+Cmd+Space` is the MacOS emoji hotkey. AutoHotkey on the PC maps it to the Windows emoji hotkey (`Win+.`).
 - For the Unicode input to work on both Windows and Mac, I have:
@@ -99,7 +128,7 @@ Number & volume keys.
 
 LEDs highlight groups of keys which perform a similar function.
 
-![Layer 3](images/layer_3.png)
+![Layer 3](images/layer_3.svg)
 
 ### Layer 4 - Nav
 
@@ -107,7 +136,7 @@ Arrow keys, keys for cycling through windows.
 
 LEDs highlight groups of keys which perform a similar function.
 
-![Layer 4](images/layer_4.png)
+![Layer 4](images/layer_4.svg)
 
 - The `ALT↯TAB` and `ALT↯+TAB` keys are used for switching windows, natively on Windows and using [Alt-Tab](https://github.com/lwouis/alt-tab-macos) on the Mac.
 - Alt-Tab on the Mac also uses the `ALT↯EQL` and `ALT↯+EQL` keys to cycle through windows of the currently focused window.
@@ -127,7 +156,7 @@ This layer is just for playing [Dota](http://www.dota2.com).
 
 LEDs are a bright yellow in the center of the key pads fading out to a bright red at the edges. 🔥🔥🔥
 
-![Layer 5](images/layer_5.png)
+![Layer 5](images/layer_5.svg)
 
 - `Alt`, `Shift` and `Ctrl` where I want them when playing.
 - Lots of F-keys so that those keys to be configured as hotkeys in Dota.

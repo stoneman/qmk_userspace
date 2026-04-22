@@ -1,0 +1,159 @@
+# keymap-drawer config for the stoneman ergodox layout.
+#
+# This file controls how the YAML produced by `keymap parse` is rendered.
+#  - draw_config: visual tweaks for the SVG output.
+#  - parse_config.raw_binding_map: maps QMK keycodes / custom keycodes /
+#    macros to friendly display labels. The keys are matched against the
+#    raw binding string as it appears in keymap.json (i.e. before any of
+#    keymap-drawer's own normalisation).
+#
+# Edit this file when:
+#  - You add a new custom keycode and want it to render with a nicer label
+#    than the raw enum name.
+#  - You want to change how an existing key is displayed in the diagrams.
+
+draw_config:
+  # Force dark palette in the SVG itself so resvg-rasterised PNGs match
+  # what dark-mode viewers show for the SVGs (`auto` uses a CSS media
+  # query that resvg ignores, leaving PNGs stuck on the light palette).
+  dark_mode: true
+  shrink_wide_legends: 8
+  # Match (roughly) the proportions of the previous Oryx PNGs so doxaid
+  # doesn't need to be rebuilt with a different aspect ratio.
+  key_w: 64.0
+  key_h: 56.0
+
+  # Colour keys by function. Each entry below sets a `type:` (CSS class)
+  # on a binding and these rules paint the background. Colours are
+  # semi-transparent so they read on both light and dark backgrounds.
+  svg_extra_style: |
+    rect.key.mod    { fill: rgba(255, 184, 108, 0.45); }  /* orange — modifiers */
+    rect.key.layer  { fill: rgba(139, 233, 253, 0.45); }  /* cyan   — layer switches */
+    rect.key.macro  { fill: rgba(189, 147, 249, 0.40); }  /* purple — macros */
+    rect.key.emoji  { fill: rgba(255, 121, 198, 0.35); }  /* pink   — emoji */
+    rect.key.nav    { fill: rgba(80,  250, 123, 0.35); }  /* green  — navigation/window mgmt */
+    rect.key.media  { fill: rgba(255, 85,  85,  0.65); }  /* red    — media */
+    rect.key.system { fill: rgba(241, 250, 140, 0.45); }  /* yellow — system / boot */
+    /* Inherited (transparent) keys: darker grey than normal keys + faded
+       text so it's clear they fall through to the base layer. */
+    rect.key.trans  { fill: #1c2128; }
+    .key.trans text { opacity: 0.55; }
+
+parse_config:
+  # Layer activator highlighting (e.g. MO(1) gets coloured to match L1).
+  mark_alternate_layer_activators: true
+
+  # Friendly names for the LSFT(KC_F11)/KC_F11 etc. Doxaid hotkeys.
+  layer_legend_map: {}
+
+  # Map raw QMK bindings to display labels and/or types.
+  # Use {t: ..., h: ..., s: ..., type: ...} for tap/hold/shifted/category.
+  # `type:` adds a CSS class — see svg_extra_style above for colours.
+  raw_binding_map:
+    # ─── No-op / transparent ─────────────────────────────────────────
+    KC_NO: ""
+
+    # ─── Modifiers ──────────────────────────────────────────────────
+    KC_LSFT: { t: "Shift", type: "mod" }
+    KC_LCTL: { t: "Ctrl", type: "mod" }
+    KC_LALT: { t: "Alt", type: "mod" }
+    KC_LGUI: { t: "Cmd", type: "mod" }
+    "MT(MOD_LGUI, KC_MINUS)": { t: "-", h: "Cmd", type: "mod" }
+    "MT(MOD_LALT, KC_SEMICOLON)": { t: ";", h: "Alt", type: "mod" }
+    "LT(2,KC_TAB)": { t: "Tab", h: "L2 Emoji", type: "layer" }
+
+    # ─── Hyper combos (Doxaid hotkeys) ──────────────────────────────
+    KC_HYPER_F8: { t: "F8", h: "Hyper", type: "mod" }
+    KC_HYPER_F9: { t: "F9", h: "Hyper", type: "mod" }
+    KC_HYPER_F10: { t: "F10", h: "Hyper", type: "mod" }
+    KC_HYPER_F11: { t: "F11", h: "Hyper", type: "mod" }
+    KC_HYPER_F12: { t: "F12", h: "Hyper", type: "mod" }
+    KC_HYPER_F13: { t: "F13", h: "Hyper", type: "mod" }
+    KC_HYPER_F14: { t: "F14", h: "Hyper", type: "mod" }
+    KC_HYPER_F15: { t: "F15", h: "Hyper", type: "mod" }
+
+    # ─── Layer switches ─────────────────────────────────────────────
+    "MO(1)": { t: "L1", h: "Func", type: "layer" }
+    "MO(3)": { t: "L3", h: "Num", type: "layer" }
+    "MO(4)": { t: "L4", h: "Nav", type: "layer" }
+    LAYER_4: { t: "L4", h: "Nav", type: "layer" }
+    MO_4: { t: "L4", h: "Nav", type: "layer" }
+    MUTE_DOTA_TOGGLE: { t: "Mute / Dota", type: "layer" }
+
+    # ─── Navigation / window management ─────────────────────────────
+    KC_GO_BACK: { t: "← Back", type: "nav" }
+    KC_GO_FWD: { t: "Fwd →", type: "nav" }
+    KC_FILE_NEXT: { t: "File →", type: "nav" }
+    KC_FILE_PREV: { t: "← File", type: "nav" }
+    KC_WIN_LEFT: { t: "Win ←", type: "nav" }
+    KC_WIN_RIGHT: { t: "Win →", type: "nav" }
+    KC_WIN_FULL: { t: "Win Full", type: "nav" }
+    KC_WIN_LAYOUT: { t: "Win Layout", type: "nav" }
+    ALT_TAB: { t: "Alt+Tab", type: "nav" }
+    ALT_SHIFT_TAB: { t: "Alt+Sft+Tab", type: "nav" }
+    ALT_EQL: { t: "Alt+=", type: "nav" }
+    ALT_SHIFT_EQL: { t: "Alt+Sft+=", type: "nav" }
+    KC_HOME: { t: "Home", type: "nav" }
+    KC_END: { t: "End", type: "nav" }
+    KC_PGUP: { t: "PgUp", type: "nav" }
+    KC_PGDN: { t: "PgDn", type: "nav" }
+    KC_LEFT: { t: "←", type: "nav" }
+    KC_RIGHT: { t: "→", type: "nav" }
+    KC_UP: { t: "↑", type: "nav" }
+    KC_DOWN: { t: "↓", type: "nav" }
+    "LALT(KC_LEFT)": { t: "Alt ←", type: "nav" }
+    "LALT(KC_RIGHT)": { t: "Alt →", type: "nav" }
+    "LCTL(KC_LEFT)": { t: "Ctrl ←", type: "nav" }
+    "LCTL(KC_RIGHT)": { t: "Ctrl →", type: "nav" }
+
+    # ─── Media ──────────────────────────────────────────────────────
+    KC_AUDIO_MUTE: { t: "Mute", type: "media" }
+    KC_AUDIO_VOL_UP: { t: "Vol +", type: "media" }
+    KC_AUDIO_VOL_DOWN: { t: "Vol −", type: "media" }
+
+    # ─── System / boot ──────────────────────────────────────────────
+    QK_BOOT: { t: "Boot", type: "system" }
+    KC_CAPS_LOCK: { t: "Caps", type: "system" }
+
+    # ─── Other custom #defines ──────────────────────────────────────
+    KC_ITERM: "iTerm"
+    KC_EMOJI: { t: "Emoji", type: "emoji" }
+    KC_INDENT: "Indent"
+    KC_UNINDENT: "Unindent"
+    KC_VSCODE_RUN: "Run"
+    KC_CLOSE_ALERT: "Close Alert"
+    KC_NONUS_PIPE: "|"
+    KC_NONUS_TILD: "~"
+
+    # ─── Macros ─────────────────────────────────────────────────────
+    CLI_REPEAT: { t: "CLI Repeat", type: "macro" }
+    MACRO_CHZ: { t: "chz", type: "macro" }
+    REVIEW_PLEASE: { t: ":review: :pray:", type: "macro" }
+    VIM_QUIT: { t: ":q", type: "macro" }
+    VIM_SAVE: { t: ":w", type: "macro" }
+    VIM_SAVE_QUIT: { t: ":wq", type: "macro" }
+
+    # ─── Emoji macros ───────────────────────────────────────────────
+    EMOJI_ANGRY: { t: "😡", type: "emoji" }
+    EMOJI_COOL: { t: "😎", type: "emoji" }
+    EMOJI_EYES: { t: "👀", type: "emoji" }
+    EMOJI_FINGERS_X: { t: "🤞", type: "emoji" }
+    EMOJI_GRIN: { t: "😁", type: "emoji" }
+    EMOJI_HEARTS: { t: "😍", type: "emoji" }
+    EMOJI_JOY: { t: "😂", type: "emoji" }
+    EMOJI_LAUGH: { t: "😆", type: "emoji" }
+    EMOJI_MINDBLO: { t: "🤯", type: "emoji" }
+    EMOJI_ROFL: { t: "🤣", type: "emoji" }
+    EMOJI_SAD: { t: "🙁", type: "emoji" }
+    EMOJI_SEENOEVIL: { t: "🙈", type: "emoji" }
+    EMOJI_SHOCK: { t: "😲", type: "emoji" }
+    EMOJI_SHRUG: { t: "🤷", type: "emoji" }
+    EMOJI_SLIGHT_SMILE: { t: "🙂", type: "emoji" }
+    EMOJI_SMILE: { t: "😄", type: "emoji" }
+    EMOJI_SWEAT_SMILE: { t: "😅", type: "emoji" }
+    EMOJI_TADA: { t: "🎉", type: "emoji" }
+    EMOJI_THINKING: { t: "🤔", type: "emoji" }
+    EMOJI_THUMBS_UP: { t: "👍", type: "emoji" }
+    EMOJI_WAVE: { t: "👋", type: "emoji" }
+    EMOJI_WINK: { t: "😉", type: "emoji" }
+    EMOJI_WINKTNG: { t: "😜", type: "emoji" }
