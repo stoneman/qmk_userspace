@@ -8,8 +8,6 @@
 #define KC_FILE_PREV KC_F17
 #define KC_GO_BACK LALT(LGUI(LSFT(KC_LEFT)))
 #define KC_GO_FWD LALT(LGUI(LSFT(KC_RIGHT)))
-#define KC_HYPER_F8 LALT(LCTL(LGUI(LSFT(KC_F8))))
-#define KC_HYPER_F9 LALT(LCTL(LGUI(LSFT(KC_F9))))
 #define KC_HYPER_F10 LALT(LCTL(LGUI(LSFT(KC_F10))))
 #define KC_HYPER_F11 LALT(LCTL(LGUI(LSFT(KC_F11))))
 #define KC_HYPER_F12 LALT(LCTL(LGUI(LSFT(KC_F12))))
@@ -79,9 +77,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [1] = LAYOUT_ergodox_pretty(
     QK_BOOT,        KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          LALT(KC_PRINT_SCREEN),                          KC_NO,          KC_F6,          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,
-    KC_NO,          VIM_QUIT,       VIM_SAVE,       VIM_SAVE_QUIT,  KC_NO,          KC_NO,          KC_HYPER_F9,                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_F12,
+    KC_NO,          VIM_QUIT,       VIM_SAVE,       VIM_SAVE_QUIT,  KC_NO,          KC_NO,          KC_NO,                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_F12,
     KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                                                          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_TRANSPARENT,
-    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_HYPER_F8,                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_TRANSPARENT,
+    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,                                    KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_NO,          KC_TRANSPARENT,
     KC_NO,          KC_TRANSPARENT, KC_NO,          KC_TRANSPARENT, KC_TRANSPARENT,                                                                                                 KC_NO,          KC_NO,          KC_HYPER_F11,   KC_NO,          KC_NO,
                                                                                                     KC_NO,          KC_NO,          KC_NO,          KC_NO,
                                                                                                                     KC_NO,          KC_NO,

@@ -9,7 +9,7 @@ endif
 
 QMK_FIRMWARE_ROOT = $(shell qmk config -ro user.qmk_home 2>/dev/null | cut -d= -f2 | sed -e 's@^None$$@@g')
 
-.PHONY: images check-images install-hooks
+.PHONY: images check-images install-hooks install-doxaid
 
 # Regenerate images/layer_*.svg from layouts/ergodox/stoneman/keymap.c.
 # Requires: qmk (in a qmk_firmware checkout), keymap-drawer.
@@ -27,6 +27,11 @@ check-images:
 install-hooks:
 	git -C $(QMK_USERSPACE) config core.hooksPath .githooks
 	@echo "Hooks installed. Bypass with: git push --no-verify"
+
+# Regenerate layer images, then build and install the doxaid.app helper
+# (from the doxaid submodule) into /Applications.
+install-doxaid: images
+	$(QMK_USERSPACE)/doxaid/install.sh
 
 %:
 	$(if $(QMK_FIRMWARE_ROOT),,$(error Cannot determine qmk_firmware location. `qmk config -ro user.qmk_home` is not set))

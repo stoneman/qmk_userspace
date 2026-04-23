@@ -133,18 +133,19 @@ text.label, text.footer { stroke: black; }
 text.trans { fill: #7e8184; }
 path.combo { stroke: #7f7f7f; }
 
-rect.key.mod    { fill: rgba(255, 184, 108, 0.45); }  /* orange — modifiers */
-rect.key.layer  { fill: rgba(139, 233, 253, 0.45); }  /* cyan   — layer switches */
-rect.key.macro  { fill: rgba(189, 147, 249, 0.40); }  /* purple — macros */
-rect.key.emoji  { fill: rgba(255, 121, 198, 0.35); }  /* pink   — emoji */
-rect.key.nav    { fill: rgba(80,  250, 123, 0.35); }  /* green  — navigation/window mgmt */
-rect.key.debug  { fill: rgba(80,  250, 123, 0.35); }  /* green  — debugger (layer 2) */
-rect.key.media  { fill: rgba(255, 85,  85,  0.65); }  /* red    — media */
-rect.key.system { fill: rgba(241, 250, 140, 0.45); }  /* yellow — system / boot */
-/* Inherited (transparent) keys: darker grey than normal keys + faded
-   text so it's clear they fall through to the base layer. */
-rect.key.trans  { fill: #1c2128; }
-.key.trans text { opacity: 0.55; }
+rect.key.mod    { fill: #ffb86c; }  /* orange — modifiers */
+rect.key.layer  { fill: #8be9fd; }  /* cyan   — layer switches */
+rect.key.macro  { fill: #bd93f9; }  /* purple — macros */
+rect.key.emoji  { fill: #ff79c6; }  /* pink   — emoji */
+rect.key.nav    { fill: #50fa7b; }  /* green  — navigation/window mgmt */
+rect.key.debug  { fill: #50fa7b; }  /* green  — debugger (layer 2) */
+rect.key.media  { fill: #ff5555; }  /* red    — media */
+rect.key.system { fill: #f1fa8c; }  /* yellow — system / boot */
+/* Coloured keys have light fills, so force dark text for legibility. */
+.key.mod text, .key.layer text, .key.macro text, .key.emoji text,
+.key.nav text, .key.debug text, .key.media text, .key.system text {
+    fill: #1c2128;
+}
 </style>
 <g transform="translate(30, 0)" class="layer-Dota">
 <text x="0" y="28" class="label" id="Dota">Dota:</text>
@@ -400,8 +401,7 @@ rect.key.trans  { fill: #1c2128; }
 </g>
 <g transform="translate(784, 259)" class="key mod keypos-61">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key mod"/>
-<text x="0" y="0" class="key mod tap">F15</text>
-<text x="0" y="24" class="key mod hold">Hyper</text>
+<text x="0" y="0" class="key mod tap">Doxaid</text>
 </g>
 <g transform="translate(840, 273)" class="key trans keypos-62">
 <rect rx="6" ry="6" x="-26" y="-26" width="52" height="52" class="key trans"/>

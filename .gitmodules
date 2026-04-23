@@ -1,0 +1,3 @@
+[submodule "doxaid"]
+	path = doxaid
+	url = https://github.com/stoneman/doxaid.git

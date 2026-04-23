@@ -10,7 +10,7 @@ Pipeline:
     -> svg2png.swift                   (rasterise via WebKit; macOS only)
 
 Usage:
-  tools/gen_layer_images.py            # regenerate images/layer_*.{svg,png}
+  tools/gen_layer_images.py            # regenerate images/layer_*.svg + doxaid PNGs
   tools/gen_layer_images.py --check    # exit 1 if outputs would differ
 
 Required tools (install via: pipx install keymap-drawer):
@@ -35,6 +35,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 KEYMAP_C = REPO_ROOT / "layouts/ergodox/stoneman/keymap.c"
 CONFIG_YAML = REPO_ROOT / "tools/keymap_drawer_config.yaml"
 IMAGES_DIR = REPO_ROOT / "images"
+DOXAID_ASSETS_DIR = REPO_ROOT / "doxaid/doxaid/Assets.xcassets"
 SVG2PNG = REPO_ROOT / "tools/svg2png.swift"
 
 # Logical (CSS px) size of the rendered SVG. Matches the keymap layout the
@@ -42,7 +43,7 @@ SVG2PNG = REPO_ROOT / "tools/svg2png.swift"
 # `<svg width=... height=...>` in any images/layer_*.svg. PNGs are rendered
 # at 2x this size for crisp display on retina screens.
 PNG_SIZE = (1012, 560)
-PNG_SCALE = 2
+PNG_SCALE = 1
 
 KEYBOARD = "ergodox_ez/glow"
 KEYMAP_NAME = "stoneman"
@@ -309,7 +310,7 @@ def apply_layer_label_overrides(yaml_path: Path) -> None:
 # ─────────────────────────────────────────────────────────────────────────────
 # Pipeline
 # ─────────────────────────────────────────────────────────────────────────────
-def generate(out_dir: Path) -> None:
+def generate(out_dir: Path, *, rasterize: bool = True) -> None:
     need("qmk")
     need("keymap")
     ensure_yaml()
@@ -374,12 +375,16 @@ def generate(out_dir: Path) -> None:
             )
 
         # 5. Rasterise each SVG to PNG via WebKit (colour-emoji capable).
-        rasterize_to_png(out_dir)
+        #    PNGs go into the doxaid app's asset catalog (one imageset per
+        #    layer), not the SVG output directory.
+        if rasterize:
+            rasterize_to_png(out_dir, DOXAID_ASSETS_DIR)
 
 
-def rasterize_to_png(out_dir: Path) -> None:
-    """Render layer_*.svg in out_dir to layer_*.png using svg2png.swift.
+def rasterize_to_png(svg_dir: Path, assets_dir: Path) -> None:
+    """Render layer_*.svg from svg_dir to PNGs inside doxaid's asset catalog.
 
+    Each PNG goes to `<assets_dir>/layer_<i>.imageset/layer_<i>.png`.
     We use WebKit (via a small Swift shim) because it's the only SVG
     renderer readily available on macOS that draws Apple Color Emoji in
     colour. rsvg-convert and CoreSVG fall back to monochrome glyphs.
@@ -391,10 +396,19 @@ def rasterize_to_png(out_dir: Path) -> None:
         return
     if not shutil.which("swift"):
         die("swift not on PATH; install Xcode command-line tools")
+    if not assets_dir.exists():
+        print(
+            f"note: skipping PNG rasterisation ({assets_dir} not present; "
+            "did you forget `git submodule update --init`?)",
+            file=sys.stderr,
+        )
+        return
     width, height = PNG_SIZE
     for i in range(len(LAYER_NAMES)):
-        svg = out_dir / f"layer_{i}.svg"
-        png = out_dir / f"layer_{i}.png"
+        svg = svg_dir / f"layer_{i}.svg"
+        imageset = assets_dir / f"layer_{i}.imageset"
+        imageset.mkdir(parents=True, exist_ok=True)
+        png = imageset / f"layer_{i}.png"
         run(
             [
                 "swift", str(SVG2PNG),
@@ -416,7 +430,7 @@ def cmd_generate() -> int:
 def cmd_check() -> int:
     with tempfile.TemporaryDirectory() as tmp_s:
         tmp = Path(tmp_s)
-        generate(tmp)
+        generate(tmp, rasterize=False)
         diffs: list[str] = []
         # PNGs are non-deterministic across machines (font rasterisation,
         # antialiasing) so only the SVG sources are part of the freshness

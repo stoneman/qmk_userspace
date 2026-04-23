@@ -1,6 +1,12 @@
 #!/bin/bash
 
-set -ex
+set -e
+
+# Trigger sudo password entry up-front so the prompt doesn't get buried
+# in build output later. (wally-cli needs root to talk to the keyboard.)
+sudo -v
+
+set -x
 
 QMK_USERSPACE="$(cd "$(dirname "$0")" && pwd)"
 
@@ -18,7 +24,7 @@ fi
 
 qmk config user.overlay_dir="${QMK_USERSPACE}"
 
-sudo echo "building..." # trigger sudo password entry early
+(cd "${QMK_USERSPACE}" && make images)
 
 (cd "${QMK_FIRMWARE}"; qmk compile -kb ergodox_ez/glow -km stoneman)
 
@@ -29,3 +35,19 @@ echo "flashing..."
 sudo wally-cli "${QMK_FIRMWARE}/ergodox_ez_glow_stoneman.hex"
 
 rm "${QMK_FIRMWARE}/ergodox_ez_glow_stoneman.hex" # so it's not confusing next time we pull from upstream and the filename changes
+
+set +x
+
+DOXAID_INSTALL="${QMK_USERSPACE}/doxaid/install.sh"
+if [ -x "${DOXAID_INSTALL}" ]; then
+    printf '\nUpdate doxaid? [y/N] '
+    read -r reply </dev/tty
+    case "${reply}" in
+        [yY]|[yY][eE][sS])
+            "${DOXAID_INSTALL}"
+            ;;
+        *)
+            echo "Skipping doxaid update."
+            ;;
+    esac
+fi

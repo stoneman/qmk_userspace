@@ -6,7 +6,9 @@ applyTo: "tools/**,images/**,Makefile,.github/workflows/check-images.yml,.githoo
 # Layer-image generation pipeline
 
 The pipeline turns [layouts/ergodox/stoneman/keymap.c](../../layouts/ergodox/stoneman/keymap.c)
-into one SVG **and** one PNG per layer in [images/](../../images/). Driven by
+into one SVG per layer in [images/](../../images/) and (on macOS) one PNG per
+layer inside the [doxaid/](../../doxaid/) submodule's asset catalog at
+`doxaid/doxaid/Assets.xcassets/layer_<i>.imageset/layer_<i>.png`. Driven by
 [tools/gen_layer_images.py](../../tools/gen_layer_images.py) and configured by
 [tools/keymap_drawer_config.yaml](../../tools/keymap_drawer_config.yaml).
 
@@ -33,18 +35,26 @@ into one SVG **and** one PNG per layer in [images/](../../images/). Driven by
 3. **`extract_combos()` + `inject_combos()`** — combos are parsed out of
    `keymap.c` (keymap-drawer doesn't see them) and merged into the YAML.
 4. **`resolve_transparent_keys()`** — substitutes the layer-0 binding into
-   any `▽` (KC_TRANSPARENT) slots in higher layers and tags them
-   `type: trans` so CSS can fade them. Without this, transparents render as
-   bare triangles and you can't tell what falls through.
-5. `keymap draw -s <layer name>` → one SVG per layer.
-6. **`rasterize_to_png()`** — runs `swift tools/svg2png.swift` on each SVG
-   to produce a 2× retina PNG (consumed by the doxaid macOS app, which
-   uses `NSImageView` and an asset catalog). Skipped on non-macOS.
+   any `▽` (KC_TRANSPARENT) slots in higher layers. Without this,
+   transparents render as bare triangles and you can't tell what falls
+   through. Resolved keys are tagged `type: trans`; there is currently no
+   CSS rule for that class (was removed when coloured keys went opaque), so
+   the tag is inert but harmless.
+5. **`apply_layer_label_overrides()`** — per-layer label/type rewrites
+   driven by `LAYER_LABEL_OVERRIDES` in `gen_layer_images.py`. Use this
+   when the same keycode means different things on different layers (e.g.
+   F5 = "Debug" only on the Emoji layer). Global rewrites belong in the
+   `raw_binding_map` in the YAML config; per-layer rewrites belong here.
+6. `keymap draw -s <layer name>` → one SVG per layer in `images/`.
+7. **`rasterize_to_png()`** — runs `swift tools/svg2png.swift` on each SVG
+   at `PNG_SCALE = 1` (1012×560) and writes the result into the doxaid
+   submodule's asset catalog. Skipped silently if the doxaid checkout is
+   absent or we're not on macOS.
 
-`--check` re-runs stages 1–5 into a tempdir and diffs the SVGs against
-[images/](../../images/). PNGs are *not* diffed — font rasterisation is
-not byte-stable across machines / OS versions, and CI runs on Linux where
-the Swift step is skipped.
+`--check` re-runs stages 1–6 into a tempdir and diffs the SVGs against
+[images/](../../images/). PNGs are *not* generated in `--check` mode and
+are *not* diffed — font rasterisation is not byte-stable across machines /
+OS versions, and CI runs on Linux where the Swift step is skipped anyway.
 
 ## Gotchas (we hit all of these)
 
