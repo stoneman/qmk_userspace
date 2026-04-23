@@ -261,6 +261,51 @@ def resolve_transparent_keys(yaml_path: Path) -> None:
     yaml_path.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True))
 
 
+# Per-layer label overrides applied after parsing. keymap-drawer's
+# raw_binding_map is global, but some keys (e.g. KC_F5) mean different things
+# on different layers — on layer 2 (Emoji) they're VS Code debugger shortcuts.
+# Maps layer name -> { existing tap label : (replacement label, optional type) }.
+LAYER_LABEL_OVERRIDES: dict[str, dict[str, tuple[str, str | None]]] = {
+    "Emoji": {
+        "F5": ("Debug", "debug"),
+        "F10": ("Step Over", "debug"),
+        "F11": ("Step In", "debug"),
+        "⇧ F11": ("Step Out", "debug"),
+        "Sft+F11": ("Step Out", "debug"),
+    },
+}
+
+
+def apply_layer_label_overrides(yaml_path: Path) -> None:
+    """Rewrite specific tap labels on specific layers (see LAYER_LABEL_OVERRIDES)."""
+    if not LAYER_LABEL_OVERRIDES:
+        return
+    import yaml
+
+    data = yaml.safe_load(yaml_path.read_text())
+    layers = data.get("layers") or {}
+    for layer_name, overrides in LAYER_LABEL_OVERRIDES.items():
+        keys = layers.get(layer_name)
+        if not keys:
+            continue
+        for i, key in enumerate(keys):
+            if isinstance(key, str):
+                if key in overrides:
+                    new_t, new_type = overrides[key]
+                    rep: dict = {"t": new_t}
+                    if new_type:
+                        rep["type"] = new_type
+                    keys[i] = rep
+            elif isinstance(key, dict):
+                t = key.get("t")
+                if t in overrides:
+                    new_t, new_type = overrides[t]
+                    key["t"] = new_t
+                    if new_type:
+                        key["type"] = new_type
+    yaml_path.write_text(yaml.safe_dump(data, sort_keys=False, allow_unicode=True))
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 # Pipeline
 # ─────────────────────────────────────────────────────────────────────────────
@@ -310,6 +355,9 @@ def generate(out_dir: Path) -> None:
         # 3b. Resolve transparent keys to the base-layer binding so that higher
         #     layers show what each position actually does instead of "▽".
         resolve_transparent_keys(keymap_yaml)
+
+        # 3c. Apply per-layer label overrides (e.g. F5 -> "Debug" on Emoji).
+        apply_layer_label_overrides(keymap_yaml)
 
         # 4. Render one SVG per layer.
         for i, name in enumerate(LAYER_NAMES):
