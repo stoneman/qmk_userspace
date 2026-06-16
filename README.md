@@ -111,8 +111,52 @@ LEDs highlight groups of keys which perform a similar function.
   - The `Unicode Hex Input` keyboard layout enabled on the Mac.
   - Code which sets the Unicode format to Windows-style when the keyboard boots/resumes from sleep.
   - Code which sets the Unicode format to Mac-style whenever a Raw HID command is received.
-  - Code which triggers [Kawa](https://github.com/hatashiro/kawa) on my Mac to switch to `Unicode Hex Input` input mode whenever the Emoji layer is enabled.
-  - Code which triggers [Kawa](https://github.com/hatashiro/kawa) on my Mac to switch to `British PC` input mode whenever any other layer is enabled.
+  - Code which, when using a Mac, calls a Complex Modification in [Karabiner-Elements](https://karabiner-elements.pqrs.org/) to switches the input source to `Unicode Hex Input` for the Emoji layer and `British PC` for other layers:
+
+    ```json
+    {
+        "description": "Switch keyboard Input Source",
+        "manipulators": [
+            {
+                "from": {
+                    "key_code": "f11",
+                    "modifiers": {
+                        "mandatory": ["option", "command"],
+                        "optional": []
+                    }
+                },
+                "to": [
+                    {
+                        "select_input_source": {
+                            "input_source_id": "com.apple.keylayout.British-PC",
+                            "language": "^en$"
+                        }
+                    }
+                ],
+                "type": "basic"
+            },
+            {
+                "from": {
+                    "key_code": "f11",
+                    "modifiers": {
+                        "mandatory": ["option", "control"],
+                        "optional": []
+                    }
+                },
+                "to": [
+                    {
+                        "select_input_source": {
+                            "input_source_id": "com.apple.keylayout.UnicodeHexInput",
+                            "language": "^$"
+                        }
+                    }
+                ],
+                "type": "basic"
+            }
+        ]
+    }
+    ```
+
   - Code which uses QMK's Unicode input method for Windows when Windows-style Unicode is set and which sends the relevant hex strings when Mac-style Unicode is set (I couldn't get QMK's Unicode input method for Mac to work with Unicode characters in the emoji range).
 - Nothing to do with emoji, but the following have also been added to this layer:
   - `Review Please` - is a shortcut for the Slack emojis I add when requesting a review from my team.
